@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 1.4rem;
+}
+
+input {
+  font-size: 1.4rem;
+  padding: 0.2rem;
+}
+
+button {
+  font-size: 1.4rem;
+  padding: 0.6rem;
+}
+
+.container-form {
+  align-items: center;
+  background-color: darkcyan;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.form-signup {
+  background-color: white;
+  display: grid;
+  gap: 1.4rem;
+  padding: 6rem;
+  width: 35rem;
+}
+
+.section--form-signup {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.button-signup {
+  cursor: pointer;
+  margin-top: 1rem;
+}
