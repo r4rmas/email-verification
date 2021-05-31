@@ -1,13 +1,23 @@
 import React, { useState } from "react";
+import post from "../requests/post";
 
 export default function Form() {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [passwordConfirmation, setPasswordConfirmation] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
     //proceso de verificacion
     if (password === passwordConfirmation) {
+      event.preventDefault();
+      try {
+        const response = await post("http://localhost:8000/signup", {
+          username: username,
+          password: password,
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {}
     }
   };
 
