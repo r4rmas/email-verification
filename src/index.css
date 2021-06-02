@@ -15,15 +15,17 @@ body {
 
 input {
   font-size: 1.4rem;
+  outline: none;
   padding: 0.2rem;
 }
 
 button {
+  cursor: pointer;
   font-size: 1.4rem;
   padding: 0.6rem;
 }
 
-.container-form {
+.container-signup {
   align-items: center;
   background-color: darkcyan;
   display: flex;
@@ -32,12 +34,26 @@ button {
   width: 100%;
 }
 
-.form-signup {
+.container-signup > form {
   background-color: white;
   display: grid;
   gap: 1.4rem;
   padding: 6rem;
   width: 35rem;
+}
+
+.container-verification {
+  align-items: center;
+  background-color: darkcyan;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.container-verification > form {
+  display: grid;
+  gap: 1rem;
 }
 
 .section--form-signup {
@@ -46,6 +62,5 @@ button {
 }
 
 .button-signup {
-  cursor: pointer;
   margin-top: 1rem;
 }

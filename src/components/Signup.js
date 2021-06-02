@@ -1,35 +1,36 @@
 import React, { useState } from "react";
 import post from "../requests/post";
 
-export default function Form() {
-  const [username, setUsername] = useState("");
+export default function Signup() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const handleSubmit = async (event) => {
-    //proceso de verificacion
     if (password === passwordConfirmation) {
       event.preventDefault();
       try {
         const response = await post("http://localhost:8000/signup", {
-          username: username,
+          email: email,
           password: password,
         });
         const data = await response.json();
-        console.log(data);
+        localStorage.setItem("token", data.token);
+        window.location.reload();
       } catch (error) {}
     }
+    //codigo si las passwords no son las mismas
   };
 
   return (
-    <div className="container-form">
+    <div className="container-signup">
       <span className="error"></span>
-      <form onSubmit={handleSubmit} className="form-signup">
+      <form onSubmit={handleSubmit}>
         <div className="section--form-signup">
-          <span>Username:</span>
+          <span>Email:</span>
           <input
-            onChange={(event) => setUsername(event.target.value)}
-            value={username}
+            onChange={(event) => setEmail(event.target.value)}
+            value={email}
             type="text"
             required
           />
