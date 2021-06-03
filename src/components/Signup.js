@@ -15,8 +15,10 @@ export default function Signup() {
           password: password,
         });
         const data = await response.json();
-        localStorage.setItem("token", data.token);
-        window.location.reload();
+        if (data.status === "OK") {
+          localStorage.setItem("token", data.token);
+          window.location.reload();
+        } else throw new Error();
       } catch (error) {}
     }
     //codigo si las passwords no son las mismas

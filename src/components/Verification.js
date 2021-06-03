@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import get from "../requests/get";
+import post from "../requests/post";
 
 export default function Verification() {
   const [verificationCode, setVerificationCode] = useState("");
@@ -13,7 +13,7 @@ export default function Verification() {
         localStorage.getItem("token")
       );
       const data = await response.json();
-      console.log(data);
+      if (data.status === "OK") window.location.reload();
     } catch (error) {}
   };
 

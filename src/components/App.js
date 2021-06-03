@@ -8,11 +8,12 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import get from "../requests/get";
+import Verification from "./Verification";
 
 export default function App() {
   const tokenExists = localStorage.getItem("token") !== null;
   const [isLoggedIn, setAsLoggedIn] = useState(tokenExists);
-  const [isVerified, setAsVerified] = useState("");
+  const [isVerified, setAsVerified] = useState(true);
 
   const verifyToken = async () => {
     if (tokenExists) {
@@ -22,9 +23,12 @@ export default function App() {
           localStorage.getItem("token")
         );
         const data = await response.json();
-        if (data.auth === "OK") {
+        if (data.status === "UNVERIFIED") {
           setAsLoggedIn(true);
-          setAsVerified(data.status);
+          setAsVerified(false);
+        } else if (data.status === "OK") {
+          setAsLoggedIn(true);
+          setAsVerified(true);
         } else {
           localStorage.removeItem("token");
           setAsLoggedIn(false);
@@ -40,13 +44,25 @@ export default function App() {
       <Switch>
         <Route path="/" exact>
           {isLoggedIn ? (
-            <Home isVerified={isVerified} />
+            isVerified ? (
+              <Home />
+            ) : (
+              <Verification />
+            )
           ) : (
             <Redirect to="/signup" />
           )}
         </Route>
         <Route path="/signup" exact>
-          {isLoggedIn ? <Redirect to="/" /> : <Signup />}
+          {isLoggedIn ? (
+            isVerified ? (
+              <Redirect to="/" />
+            ) : (
+              <Verification />
+            )
+          ) : (
+            <Signup />
+          )}
         </Route>
       </Switch>
     </Router>
