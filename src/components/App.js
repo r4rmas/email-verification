@@ -11,12 +11,11 @@ import get from "../requests/get";
 import Verification from "./Verification";
 
 export default function App() {
-  const tokenExists = localStorage.getItem("token") !== null;
-  const [isLoggedIn, setAsLoggedIn] = useState(tokenExists);
-  const [isVerified, setAsVerified] = useState(true);
+  const [isLoggedIn, setAsLoggedIn] = useState(null);
+  const [isVerified, setAsVerified] = useState(null);
 
   const verifyToken = async () => {
-    if (tokenExists) {
+    if (localStorage.getItem("token")) {
       try {
         const response = await get(
           "http://localhost:8000/auth",
@@ -34,26 +33,18 @@ export default function App() {
           setAsLoggedIn(false);
         }
       } catch (error) {}
-    }
+    } else setAsLoggedIn(false);
+    console.log(isVerified);
   };
 
   useEffect(() => verifyToken());
 
-  return (
+  return isLoggedIn === null ? (
+    <></>
+  ) : (
     <Router>
       <Switch>
-        <Route path="/" exact>
-          {isLoggedIn ? (
-            isVerified ? (
-              <Home />
-            ) : (
-              <Verification />
-            )
-          ) : (
-            <Redirect to="/signup" />
-          )}
-        </Route>
-        <Route path="/signup" exact>
+        <Route path="/signup">
           {isLoggedIn ? (
             isVerified ? (
               <Redirect to="/" />
@@ -62,6 +53,20 @@ export default function App() {
             )
           ) : (
             <Signup />
+          )}
+        </Route>
+        <Route path="/home">
+          {isLoggedIn ? isVerified ? <Home /> : <Verification /> : <Signup />}
+        </Route>
+        <Route path="/">
+          {isLoggedIn ? (
+            isVerified ? (
+              <Redirect to="/home" />
+            ) : (
+              <Verification />
+            )
+          ) : (
+            <Redirect to="/signup" />
           )}
         </Route>
       </Switch>
