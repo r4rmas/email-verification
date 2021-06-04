@@ -37,7 +37,6 @@ export default function App() {
         }
       } catch (error) {}
     } else setAsLoggedIn(false);
-    console.log(isVerified);
   };
 
   useEffect(() => verifyToken());
