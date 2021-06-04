@@ -22,15 +22,18 @@ export default function App() {
           localStorage.getItem("token")
         );
         const data = await response.json();
-        if (data.status === "UNVERIFIED") {
-          setAsLoggedIn(true);
-          setAsVerified(false);
-        } else if (data.status === "OK") {
-          setAsLoggedIn(true);
-          setAsVerified(true);
-        } else {
-          localStorage.removeItem("token");
-          setAsLoggedIn(false);
+        switch (data.status) {
+          case "UNVERIFIED":
+            setAsLoggedIn(true);
+            setAsVerified(false);
+            break;
+          case "OK":
+            setAsLoggedIn(true);
+            setAsVerified(true);
+            break;
+          default:
+            localStorage.removeItem("token");
+            setAsLoggedIn(false);
         }
       } catch (error) {}
     } else setAsLoggedIn(false);
@@ -56,18 +59,18 @@ export default function App() {
           )}
         </Route>
         <Route path="/home">
-          {isLoggedIn ? isVerified ? <Home /> : <Verification /> : <Signup />}
-        </Route>
-        <Route path="/">
           {isLoggedIn ? (
             isVerified ? (
-              <Redirect to="/home" />
+              <Home />
             ) : (
               <Verification />
             )
           ) : (
             <Redirect to="/signup" />
           )}
+        </Route>
+        <Route path="/">
+          {isLoggedIn ? <Redirect to="/home" /> : <Redirect to="/signup" />}
         </Route>
       </Switch>
     </Router>
